@@ -1,0 +1,39 @@
+---
+- name: "Build container with ansible"
+  hosts: localhost
+  tasks:
+    - name: stop running container
+      command: docker stop peaceful_sinoussi
+      ignore_errors: yes
+
+    - name: remove stopped container
+      command: docker rm peaceful_sinoussi
+      ignore_errors: yes
+
+    - name: remove used image
+      command: docker rmi my-web-app
+      ignore_errors: yes
+      
+    - name: remove used image
+      command: docker rmi taining_image
+      ignore_errors: yes
+      
+    - name: remove used image
+      command: docker rmi mohamed_aziz/first_training_image
+      ignore_errors: yes
+      
+    - name: remove used image
+      command: docker rmi zoghlemimedaziz/first_training_image
+      ignore_errors: yes 
+      
+    - name: build docker image from dockerfile
+      command: docker build -t training_image ~/Desktop/docker_practice/
+
+    - name: create tag to image
+      command: docker tag training_image zoghlemimedaziz/second_training_image
+
+    - name: push image to dockerhub
+      command: docker push zoghlemimedaziz/second_training_image
+
+    - name: run container from image
+      command: docker run -d --name containerone -p 8080 training_image
